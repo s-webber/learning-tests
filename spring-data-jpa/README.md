@@ -17,5 +17,5 @@ This project is still being developed. The plan is to provide tests which demons
 Further reading:
 
 * [Spring Data JPA](http://projects.spring.io/spring-data-jpa/)
-* [Repository query keywords] http://docs.spring.io/spring-data/jpa/docs/current/reference/html/#repository-query-keywords
+* [Repository query keywords](http://docs.spring.io/spring-data/jpa/docs/current/reference/html/#repository-query-keywords)
 * [org.springframework.data.jpa.repository.JpaRepository Javadoc](http://docs.spring.io/spring-data/jpa/docs/current/api/org/springframework/data/jpa/repository/JpaRepository.html)
