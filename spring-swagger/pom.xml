@@ -24,19 +24,14 @@
       <artifactId>spring-boot-starter-web</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.ajar</groupId>
-      <artifactId>swagger-spring-mvc-ui</artifactId>
-      <version>0.2</version>
+      <groupId>io.springfox</groupId>
+      <artifactId>springfox-swagger-ui</artifactId>
+      <version>2.2.2</version>
     </dependency>
     <dependency>
-      <groupId>com.mangofactory</groupId>
-      <artifactId>swagger-springmvc</artifactId>
-      <version>1.0.0</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.tomcat.embed</groupId>
-      <artifactId>tomcat-embed-jasper</artifactId>
-      <scope>provided</scope>
+      <groupId>io.springfox</groupId>
+      <artifactId>springfox-swagger2</artifactId>
+      <version>2.2.2</version>
     </dependency>
   </dependencies>
 
@@ -45,18 +40,6 @@
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
-        <configuration>
-          <requiresUnpack>
-            <dependency>
-              <groupId>com.mangofactory</groupId>
-              <artifactId>swagger-springmvc</artifactId>
-            </dependency>
-            <dependency>
-              <groupId>org.ajar</groupId>
-              <artifactId>swagger-spring-mvc-ui</artifactId>
-            </dependency>
-          </requiresUnpack>
-        </configuration>
       </plugin>
     </plugins>
   </build>

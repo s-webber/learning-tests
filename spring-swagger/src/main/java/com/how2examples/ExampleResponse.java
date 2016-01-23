@@ -1,6 +1,6 @@
 package com.how2examples;
 
-import com.wordnik.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiModelProperty;
 
 public class ExampleResponse {
    @ApiModelProperty(value = "The value specified in the path of the request URL.", required = true)
