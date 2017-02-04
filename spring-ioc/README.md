@@ -18,7 +18,7 @@ Features _not_ currently covered by these tests include:
 * The request, session, global session and application [bean scopes](http://docs.spring.io/spring/docs/current/spring-framework-reference/html/beans.html#beans-factory-scopes).
 * The full range of approaches to [autowiring](http://docs.spring.io/spring/docs/current/spring-framework-reference/html/beans.html#beans-factory-autowire).
 * The [`@DependsOn`](http://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/DependsOn.html) and [`@Primary`](http://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/Primary.html) annotations.
-* The [`BeanFactoryPostProcessor`](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/beans/factory/config/BeanFactoryPostProcessor.html) and [BeanPostProcessor](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/beans/factory/config/BeanPostProcessor.html) interfaces.
+* The [`BeanFactoryPostProcessor`](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/beans/factory/config/BeanFactoryPostProcessor.html) and [`BeanPostProcessor`](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/beans/factory/config/BeanPostProcessor.html) interfaces.
 
 ---
 
