@@ -4,8 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
@@ -17,6 +17,7 @@ import org.junit.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
+import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.jdbc.InvalidResultSetAccessException;
 import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.core.RowMapper;
@@ -188,17 +189,29 @@ public class JdbcTemplateTest {
       assertNotFound(id);
    }
 
+   @Test
+   public void badSqlGrammarException() {
+      Throwable t = catchException(() -> jdbcOperations.update("Invalid SQL"));
+      assertSame(BadSqlGrammarException.class, t.getClass());
+      assertTrue(t.getCause() instanceof SQLException);
+   }
+
    private Employee findById(int id) {
       return jdbcOperations.queryForObject("SELECT id, name, start_date FROM employee WHERE id=?", ROW_MAPPER, id);
    }
 
    private void assertException(Class<? extends Throwable> expectedClass, String expectedMessage, Runnable r) {
+      Throwable actual = catchException(r);
+      assertSame(expectedClass, actual.getClass());
+      assertEquals(expectedMessage, actual.getMessage());
+   }
+
+   private Throwable catchException(Runnable r) {
       try {
          r.run();
-         fail();
-      } catch (Exception actual) {
-         assertSame(expectedClass, actual.getClass());
-         assertEquals(expectedMessage, actual.getMessage());
+         return null;
+      } catch (Throwable t) {
+         return t;
       }
    }
 
