@@ -98,4 +98,23 @@ public class CacheTest {
       assertNotSame(o1, exampleService.cacheable(key1));
       assertSame(o2, exampleService.cacheable(key2));
    }
+
+   /** Confirm calling a method annotated with @CacheEvict and allEntries="true" evicts <i>all</i> items in the cache. */
+   @Test
+   public void evictAllEntries() {
+      String key1 = "key1";
+      String key2 = "key2";
+
+      Object o1 = exampleService.cacheable(key1);
+      Object o2 = exampleService.cacheable(key2);
+      assertNotSame(o1, o2);
+
+      assertSame(o1, exampleService.cacheable(key1));
+      assertSame(o2, exampleService.cacheable(key2));
+
+      exampleService.evictAll();
+
+      assertNotSame(o1, exampleService.cacheable(key1));
+      assertNotSame(o2, exampleService.cacheable(key2));
+   }
 }

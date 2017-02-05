@@ -12,12 +12,16 @@ public class ExampleService {
       return new Object();
    }
 
+   @CachePut("exampleCache")
+   public Object put(String x) {
+      return new Object();
+   }
+
    @CacheEvict("exampleCache")
    public void evict(String x) {
    }
 
-   @CachePut("exampleCache")
-   public Object put(String x) {
-      return new Object();
+   @CacheEvict(cacheNames = "exampleCache", allEntries = true)
+   public void evictAll() {
    }
 }

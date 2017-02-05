@@ -9,9 +9,9 @@ Features demonstrated by the tests include:
 
 Features _not_ currently covered by these tests include:
 
-* Customising the cache key using the `key` attributes of `@Cacheable`, `@CachePut` and `@CacheEvict`..
+* Customising the cache key using the `key` attributes of `@Cacheable`, `@CachePut` and `@CacheEvict`.
 * Conditional caching using the `condition` and `unless` attributes of `@Cacheable` and `@CachePut`.
-* The `condition`, `allEntries` and `beforeInvocation` attributes of `@CacheEvict`. 
+* The `condition` and `beforeInvocation` attributes of `@CacheEvict`. 
 * The  `@Caching` annotation.
 * XML-based cache configuration.
 * Other cache managers (e.g. `org.springframework.cache.ehcache.EhCacheCacheManager`).
