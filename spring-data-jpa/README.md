@@ -2,15 +2,18 @@
 
 This project contains JUnit tests which provide examples of how to use Spring Data JPA to access a database.
 
-This project is still being developed. The plan is to provide tests which demonstrate:
+The tests cover:
 
-* Sophisticated support to build repositories based on Spring and JPA
-* Support for Querydsl predicates and thus type-safe JPA queries
-* Transparent auditing of domain class
-* Pagination support, dynamic query execution, ability to integrate custom data access code
-* Validation of @Query annotated queries at bootstrap time
-* Support for XML based entity mapping
-* JavaConfig based repository configuration by introducing @EnableJpaRepositories.
+* Implementing `org.springframework.data.jpa.repository.JpaRepository` to create repositories based on Spring and JPA.
+* JavaConfig based repository configuration using `@EnableJpaRepositories`.
+
+Features _not_ currently covered by these tests include:
+
+* Support for Querydsl predicates and thus type-safe JPA queries.
+* Transparent auditing of domain class.
+* Pagination support.
+* Ability to integrate custom data access code.
+* Support for XML based entity mapping.
 
 ---
 

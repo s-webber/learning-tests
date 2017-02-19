@@ -5,7 +5,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -19,9 +18,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Sort;
 
+// Split this class into three separate classes: CrudRepositoryTest, JpaRepository and EmployeeRepositoryTest
 public class EmployeeRepositoryTest {
    private static final int NUMBER_OF_EMPLOYEES = 10;
    private AnnotationConfigApplicationContext applicationContext;
@@ -126,7 +125,7 @@ public class EmployeeRepositoryTest {
    public void testFindAll() {
       List<Employee> all = employeeRepository.findAll();
       assertEquals(employeeRepository.count(), all.size());
-      // TODO
+      // TODO confirm contents of "all" rather than just confirming its size
    }
 
    /**
@@ -168,7 +167,7 @@ public class EmployeeRepositoryTest {
     */
    @Test
    public void testSaveIterable() {
-      // TODO
+      // TODO add test of: Iterable<S> save(Iterable<S> entities)
    }
 
    /**
@@ -179,36 +178,7 @@ public class EmployeeRepositoryTest {
     */
    @Test
    public void testSave() {
-      ExampleService s = applicationContext.getBean(ExampleService.class);
-      Employee b = new Employee();
-      b.setId(1);
-      b.setFirstName("012345678901234567890123456789012345678901234567891");
-      b.setStartDate(new Date());
-      try {
-         s.required(() -> {
-            Employee e2 = employeeRepository.save(b);
-            employeeRepository.flush();
-            fail("xya");
-         });
-      } catch (DataIntegrityViolationException e) {
-
-      }
-
-      try {
-         s.required(() -> {
-            Employee e2 = employeeRepository.save(b);
-            // exampleRepository.flush();
-            fail("xyz");
-         });
-      } catch (AssertionError e) {
-         assertEquals("xyz", e.getMessage());
-      }
-      // assertEquals(3, exampleRepository.count());
-      // s.requiresNew(() -> assertEquals(2, exampleRepository.count()));
-      // // assertEquals(878, exampleRepository.count());
-
-      // TODO test save throwing exception due to null constraint of primary key constraint
-      // TODO how to test not calling flush()?
+      // TODO add test of: S save(S entity)
    }
 
    // test methods defined in PagingAndSortingRepository
@@ -220,7 +190,7 @@ public class EmployeeRepositoryTest {
     */
    @Test
    public void testFindAllPageable() {
-      // TODO
+      // TODO add test of: Page<T> findAll(Pageable pageable)
    }
 
    /**
@@ -247,7 +217,7 @@ public class EmployeeRepositoryTest {
     */
    @Test
    public void testDeleteAllInBatch() {
-      // TODO
+      // TODO add test of: void deleteAllInBatch()
    }
 
    /**
@@ -259,7 +229,7 @@ public class EmployeeRepositoryTest {
     */
    @Test
    public void testDeleteInBatchIterable() {
-      // TODO
+      // TODO add test of: void deleteAllInBatch()
    }
 
    /**
@@ -269,7 +239,7 @@ public class EmployeeRepositoryTest {
     */
    @Test
    public void testFlush() {
-      // TODO
+      // TODO add test of: void flush()
    }
 
    /**
@@ -291,7 +261,7 @@ public class EmployeeRepositoryTest {
     */
    @Test
    public void testSaveAndFlush() {
-      // TODO
+      // TODO add test of: S saveAndFlush(S entity)
    }
 
    // test queries defined in ExampleRepository
@@ -306,22 +276,26 @@ public class EmployeeRepositoryTest {
     * Example of "between" and "order by"
     */
    @Test
-   public void testQueryForList() {
+   public void testFindByStartDateBetween() {
       List<Employee> e = employeeRepository.findByStartDateBetween(new Date(0), new Date());
       assertEquals(NUMBER_OF_EMPLOYEES, e.size());
-      // TODO come up with better test
+      // TODO confirm contents of "e" rather than just confirming its size
    }
 
    @Test
-   public void testQueryForList2() {
+   public void testFindByLastNameLike() {
       List<Employee> e = employeeRepository.findByLastNameLike("S_i%");
       assertContainsLastNames(e, "Smith");
    }
 
+   // TODO add tests for all methods defined on the ExampleRepository interface
+
+   @SuppressWarnings("unchecked")
    private <T> void assertContainsLastNames(List<Employee> e, T... expected) {
-      assertContains(e, o -> o.getLastName(), "Smith");
+      assertContains(e, o -> o.getLastName(), expected);
    }
 
+   @SuppressWarnings("unchecked")
    private <T> void assertContains(List<Employee> e, Function<Employee, T> mapper, T... expected) {
       Set<T> set = asSet(expected);
       assertEquals(expected.length, e.size());
