@@ -12,6 +12,9 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 
+/**
+ * Provides examples of NamedParameterJdbcOperations/NamedParameterJdbcTemplate using an in-memory database created from src/test/resources/db-schema.sql
+ */
 public class NamedParameterJdbcTemplateTest {
    private AnnotationConfigApplicationContext applicationContext;
    private NamedParameterJdbcOperations template;
@@ -31,7 +34,7 @@ public class NamedParameterJdbcTemplateTest {
    public void queryForMapUsingMapSqlParameterSource() {
       MapSqlParameterSource s = new MapSqlParameterSource();
       s.addValue("name", "bbb");
-      Map<String, Object> m = template.queryForMap("SELECT id, name FROM employee WHERE name=:name", s);
+      Map<String, Object> m = template.queryForMap("SELECT id, name FROM example_table WHERE name=:name", s);
       assertEquals(2, m.size());
       assertEquals(2, m.get("id"));
       assertEquals("bbb", m.get("name"));
@@ -41,7 +44,7 @@ public class NamedParameterJdbcTemplateTest {
    public void queryForMapUsingMap() {
       Map<String, Object> paramMap = new HashMap<>();
       paramMap.put("name", "bbb");
-      Map<String, Object> m = template.queryForMap("SELECT id, name FROM employee WHERE name=:name", paramMap);
+      Map<String, Object> m = template.queryForMap("SELECT id, name FROM example_table WHERE name=:name", paramMap);
       assertEquals(2, m.size());
       assertEquals(2, m.get("id"));
       assertEquals("bbb", m.get("name"));
