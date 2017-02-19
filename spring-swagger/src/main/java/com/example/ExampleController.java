@@ -18,8 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class ExampleController {
    @ApiOperation(value = "Example operation", notes = "A simple REST operation to demonstrate integration with Swagger.")
    @ApiResponses(@ApiResponse(code = 200, message = "OK"))
-   @RequestMapping(value = "/{resourceId}", method = RequestMethod.GET)
-   public ExampleResponse greeting(@PathVariable("resourceId") @ApiParam("A value specified in the path of the request URL.") String path,
+   @RequestMapping(path = "/{resourceId}", method = RequestMethod.GET)
+   public ExampleResponse greeting(
+         @PathVariable("resourceId") @ApiParam(value = "A value specified in the path of the request URL.", required = true) String path,
          @RequestParam(value = "name", defaultValue = "default") @ApiParam("A value provided as a parameter value in the request.") String param) {
       return new ExampleResponse(path, param);
    }
