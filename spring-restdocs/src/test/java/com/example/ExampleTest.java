@@ -23,6 +23,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.web.context.WebApplicationContext;
 
+/**
+ * This test demonstrates how Spring REST Docs can be used to document RESTful services.
+ * <p>
+ * Running the test will cause documentation to be generated in target/generated-snippets. As part of executing a "mvn clean install" the documentation in
+ * target/generated-snippets will be used to generate target/generated-docs/example.html
+ */
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class ExampleTest {
@@ -39,6 +45,7 @@ public class ExampleTest {
       mockMvc = webAppContextSetup(webApplicationContext).apply(documentationConfiguration(restDocumentation)).alwaysDo(document).build();
    }
 
+   /** This test will cause documentation to be generated in target/generated-snippets/test */
    @Test
    public void test() throws Exception {
       MvcResult result = mockMvc.perform(get("/example")).andExpect(status().isOk()).andReturn();
