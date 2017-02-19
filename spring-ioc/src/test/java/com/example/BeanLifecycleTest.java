@@ -183,9 +183,8 @@ public class BeanLifecycleTest {
          context.getBean(CreatedTimeAwareBean.class);
          fail();
       } catch (NoUniqueBeanDefinitionException e) {
-         assertEquals(
-               "No qualifying bean of type [com.example.CreatedTimeAwareBean] is defined: expected single matching bean but found 2: lazyBean,eagerBean",
-               e.getMessage());
+         String expected = "No qualifying bean of type 'com.example.CreatedTimeAwareBean' available: expected single matching bean but found 2: lazyBean,eagerBean";
+         assertEquals(expected, e.getMessage());
       }
    }
 
@@ -198,7 +197,7 @@ public class BeanLifecycleTest {
          context.getBean(StringBuilder.class);
          fail();
       } catch (NoSuchBeanDefinitionException e) {
-         assertEquals("No qualifying bean of type [java.lang.StringBuilder] is defined", e.getMessage());
+         assertEquals("No qualifying bean of type 'java.lang.StringBuilder' available", e.getMessage());
       }
    }
 
