@@ -6,7 +6,7 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 @Configuration
 @EnableAspectJAutoProxy
-public class Config {
+public class ExampleConfig {
    @Bean
    public ExampleBean exampleBean() {
       return new ExampleBean();
