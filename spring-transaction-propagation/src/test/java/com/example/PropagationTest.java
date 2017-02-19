@@ -327,7 +327,7 @@ public class PropagationTest {
       }
    }
 
-   /** Like {@code java.util.function.Consumer}, but takes variable numbers if arguments and allows checked exceptions to be thrown. */
+   /** Like {@code java.util.function.Consumer}, but takes variable numbers of arguments and allows checked exceptions to be thrown. */
    static interface MyConsumer {
       void accept(MyRunnable... runnables) throws Exception;
    }
