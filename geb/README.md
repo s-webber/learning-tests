@@ -4,7 +4,7 @@ It is a work-in-progress. For a better example of using Geb please see the [geb-
 
 Below are the steps I took to use it from the [Spring Tool Suite](https://spring.io/tools) development environment:
 
-Download, install and launch "Spring Tool Suite".
+[Download](https://spring.io/tools/sts/all), install and launch "Spring Tool Suite".
 
 **Note:** If using Windows then you may get a "Path too long" error when attempting to unzip `spring-tool-suite-3.8.3.RELEASE-e4.6.2-win32-x86_64.zip` using the "Extract All..." option.
 A workaround for this is to unzip the file using `jar`. e.g.: `C:\>jar xf spring-tool-suite-3.8.3.RELEASE-e4.6.2-win32-x86_64.zip`
