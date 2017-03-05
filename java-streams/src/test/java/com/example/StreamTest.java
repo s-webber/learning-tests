@@ -1,6 +1,16 @@
 package com.example;
 
 import static java.util.Arrays.asList;
+import static java.util.stream.Collectors.counting;
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.mapping;
+import static java.util.stream.Collectors.maxBy;
+import static java.util.stream.Collectors.minBy;
+import static java.util.stream.Collectors.partitioningBy;
+import static java.util.stream.Collectors.summarizingInt;
+import static java.util.stream.Collectors.toCollection;
+import static java.util.stream.Collectors.toList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -11,7 +21,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.TreeSet;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -35,12 +44,12 @@ public class StreamTest {
 
    @Test
    public void collectToList() {
-      assertEquals(words, words.stream().collect(Collectors.toList()));
+      assertEquals(words, words.stream().collect(toList()));
    }
 
    @Test
    public void collectGroupingBy() {
-      Map<Integer, List<String>> grouped = words.stream().collect(Collectors.groupingBy(String::length));
+      Map<Integer, List<String>> grouped = words.stream().collect(groupingBy(String::length));
       assertEquals(3, grouped.size());
       assertEquals(asList("dog", "cat"), grouped.get(3));
       assertEquals(asList("badger"), grouped.get(6));
@@ -49,7 +58,7 @@ public class StreamTest {
 
    @Test
    public void collectGroupingByCounting() {
-      Map<Integer, Long> grouped = words.stream().collect(Collectors.groupingBy(String::length, Collectors.counting()));
+      Map<Integer, Long> grouped = words.stream().collect(groupingBy(String::length, counting()));
       assertEquals(3, grouped.size());
       assertEquals(2L, grouped.get(3).longValue());
       assertEquals(1L, grouped.get(6).longValue());
@@ -59,7 +68,7 @@ public class StreamTest {
    @Test
    public void collectGroupingBySummingInt() {
       List<String> words = asList("aardvark", "ant", "alligator", "armadillo", "badger", "cat", "caterpillar");
-      Map<Character, IntSummaryStatistics> grouped = words.stream().collect(Collectors.groupingBy(s -> s.charAt(0), Collectors.summarizingInt(String::length)));
+      Map<Character, IntSummaryStatistics> grouped = words.stream().collect(groupingBy(s -> s.charAt(0), summarizingInt(String::length)));
 
       assertEquals(3, grouped.size());
 
@@ -76,7 +85,7 @@ public class StreamTest {
    @Test
    public void collectGroupingByMaxBy() {
       List<String> words = asList("aardvark", "ant", "alligator", "armadillo", "badger", "cat", "caterpillar");
-      Map<Character, Optional<String>> grouped = words.stream().collect(Collectors.groupingBy(s -> s.charAt(0), Collectors.maxBy(String::compareTo)));
+      Map<Character, Optional<String>> grouped = words.stream().collect(groupingBy(s -> s.charAt(0), maxBy(String::compareTo)));
 
       assertEquals(3, grouped.size());
       assertEquals("armadillo", grouped.get('a').get());
@@ -87,8 +96,7 @@ public class StreamTest {
    @Test
    public void collectGroupingByMapping() {
       List<String> words = asList("aardvark", "ant", "alligator", "armadillo", "badger", "cat", "caterpillar");
-      Map<Character, Optional<Integer>> grouped = words.stream().collect(
-            Collectors.groupingBy(s -> s.charAt(0), Collectors.mapping(String::length, Collectors.minBy(Integer::compare))));
+      Map<Character, Optional<Integer>> grouped = words.stream().collect(groupingBy(s -> s.charAt(0), mapping(String::length, minBy(Integer::compare))));
 
       assertEquals(3, grouped.size());
       assertEquals(3, grouped.get('a').get().intValue());
@@ -98,19 +106,19 @@ public class StreamTest {
 
    @Test
    public void collectJoining() {
-      assertEquals("dog-aardvark-elephant-cat-badger", words.stream().collect(Collectors.joining("-")));
+      assertEquals("dog-aardvark-elephant-cat-badger", words.stream().collect(joining("-")));
    }
 
    @Test
    public void collectPartitioningBy() {
-      Map<Boolean, List<String>> partitioned = words.stream().collect(Collectors.partitioningBy(s -> s.length() == 3));
+      Map<Boolean, List<String>> partitioned = words.stream().collect(partitioningBy(s -> s.length() == 3));
       assertEquals(asList("dog", "cat"), partitioned.get(true));
       assertEquals(asList("aardvark", "elephant", "badger"), partitioned.get(false));
    }
 
    @Test
    public void collectToCollection() {
-      TreeSet<String> collected = words.stream().collect(Collectors.toCollection(TreeSet::new));
+      TreeSet<String> collected = words.stream().collect(toCollection(TreeSet::new));
       assertEquals(asList("aardvark", "badger", "cat", "dog", "elephant"), new ArrayList<>(collected));
    }
 
@@ -122,13 +130,13 @@ public class StreamTest {
    @Test
    public void distinct() {
       List<String> duplicates = asList("apple", "orange", "apple", "lemon", "lemon", "banana");
-      List<String> distinct = duplicates.stream().distinct().collect(Collectors.toList());
+      List<String> distinct = duplicates.stream().distinct().collect(toList());
       assertEquals(asList("apple", "orange", "lemon", "banana"), distinct);
    }
 
    @Test
    public void filter() {
-      List<String> filtered = words.stream().filter(s -> s.length() == 3).collect(Collectors.toList());
+      List<String> filtered = words.stream().filter(s -> s.length() == 3).collect(toList());
       assertEquals(asList("dog", "cat"), filtered);
    }
 
@@ -141,7 +149,7 @@ public class StreamTest {
    @Test
    public void flatMap() {
       List<List<String>> input = asList(asList("a", "b"), asList("c", "d"), asList("e", "f"));
-      List<Object> flatMapped = input.stream().flatMap(l -> l.stream()).collect(Collectors.toList());
+      List<Object> flatMapped = input.stream().flatMap(l -> l.stream()).collect(toList());
       assertEquals(asList("a", "b", "c", "d", "e", "f"), flatMapped);
    }
 
@@ -153,19 +161,19 @@ public class StreamTest {
 
    @Test
    public void limit() {
-      List<String> limited = words.stream().limit(3).collect(Collectors.toList());
+      List<String> limited = words.stream().limit(3).collect(toList());
       assertEquals(asList("dog", "aardvark", "elephant"), limited);
    }
 
    @Test
    public void mapMethodExpression() {
-      List<String> upperCased = words.stream().map(String::toUpperCase).collect(Collectors.toList());
+      List<String> upperCased = words.stream().map(String::toUpperCase).collect(toList());
       assertEquals(asList("DOG", "AARDVARK", "ELEPHANT", "CAT", "BADGER"), upperCased);
    }
 
    @Test
    public void mapLambdaExpression() {
-      List<Character> firstChars = words.stream().map(s -> s.charAt(0)).collect(Collectors.toList());
+      List<Character> firstChars = words.stream().map(s -> s.charAt(0)).collect(toList());
       assertEquals(asList('d', 'a', 'e', 'c', 'b'), firstChars);
    }
 
@@ -199,32 +207,32 @@ public class StreamTest {
 
    @Test
    public void skip() {
-      List<String> limited = words.stream().skip(3).collect(Collectors.toList());
+      List<String> limited = words.stream().skip(3).collect(toList());
       assertEquals(asList("cat", "badger"), limited);
    }
 
    @Test
    public void sorted() {
-      List<String> limited = words.stream().sorted().collect(Collectors.toList());
+      List<String> limited = words.stream().sorted().collect(toList());
       assertEquals(asList("aardvark", "badger", "cat", "dog", "elephant"), limited);
    }
 
    @Test
    public void streamOf() {
       Stream<String> s = Stream.of("ab,cd,ef".split(","));
-      assertEquals(asList("ab", "cd", "ef"), s.collect(Collectors.toList()));
+      assertEquals(asList("ab", "cd", "ef"), s.collect(toList()));
    }
 
    @Test
    public void streamIterate() {
       Stream<String> s = Stream.iterate("a", x -> x + "a");
-      assertEquals(asList("a", "aa", "aaa"), s.limit(3).collect(Collectors.toList()));
+      assertEquals(asList("a", "aa", "aaa"), s.limit(3).collect(toList()));
    }
 
    @Test
    public void streamGenerate() {
       Stream<String> s = Stream.generate(() -> "a");
-      assertEquals(asList("a", "a", "a"), s.limit(3).collect(Collectors.toList()));
+      assertEquals(asList("a", "a", "a"), s.limit(3).collect(toList()));
    }
 
    @Test
