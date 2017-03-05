@@ -12,6 +12,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import org.junit.Test;
 
@@ -43,6 +45,55 @@ public class StreamTest {
       assertEquals(asList("dog", "cat"), grouped.get(3));
       assertEquals(asList("badger"), grouped.get(6));
       assertEquals(asList("aardvark", "elephant"), grouped.get(8));
+   }
+
+   @Test
+   public void collectGroupingByCounting() {
+      Map<Integer, Long> grouped = words.stream().collect(Collectors.groupingBy(String::length, Collectors.counting()));
+      assertEquals(3, grouped.size());
+      assertEquals(2L, grouped.get(3).longValue());
+      assertEquals(1L, grouped.get(6).longValue());
+      assertEquals(2L, grouped.get(8).longValue());
+   }
+
+   @Test
+   public void collectGroupingBySummingInt() {
+      List<String> words = asList("aardvark", "ant", "alligator", "armadillo", "badger", "cat", "caterpillar");
+      Map<Character, IntSummaryStatistics> grouped = words.stream().collect(Collectors.groupingBy(s -> s.charAt(0), Collectors.summarizingInt(String::length)));
+
+      assertEquals(3, grouped.size());
+
+      assertEquals(7.25, grouped.get('a').getAverage(), 0d);
+      assertEquals(4, grouped.get('a').getCount());
+      assertEquals(9, grouped.get('a').getMax());
+      assertEquals(3, grouped.get('a').getMin());
+      assertEquals(29, grouped.get('a').getSum());
+
+      assertEquals(1, grouped.get('b').getCount());
+      assertEquals(2, grouped.get('c').getCount());
+   }
+
+   @Test
+   public void collectGroupingByMaxBy() {
+      List<String> words = asList("aardvark", "ant", "alligator", "armadillo", "badger", "cat", "caterpillar");
+      Map<Character, Optional<String>> grouped = words.stream().collect(Collectors.groupingBy(s -> s.charAt(0), Collectors.maxBy(String::compareTo)));
+
+      assertEquals(3, grouped.size());
+      assertEquals("armadillo", grouped.get('a').get());
+      assertEquals("badger", grouped.get('b').get());
+      assertEquals("caterpillar", grouped.get('c').get());
+   }
+
+   @Test
+   public void collectGroupingByMapping() {
+      List<String> words = asList("aardvark", "ant", "alligator", "armadillo", "badger", "cat", "caterpillar");
+      Map<Character, Optional<Integer>> grouped = words.stream().collect(
+            Collectors.groupingBy(s -> s.charAt(0), Collectors.mapping(String::length, Collectors.minBy(Integer::compare))));
+
+      assertEquals(3, grouped.size());
+      assertEquals(3, grouped.get('a').get().intValue());
+      assertEquals(6, grouped.get('b').get().intValue());
+      assertEquals(3, grouped.get('c').get().intValue());
    }
 
    @Test
@@ -107,9 +158,15 @@ public class StreamTest {
    }
 
    @Test
-   public void map() {
+   public void mapMethodExpression() {
       List<String> upperCased = words.stream().map(String::toUpperCase).collect(Collectors.toList());
       assertEquals(asList("DOG", "AARDVARK", "ELEPHANT", "CAT", "BADGER"), upperCased);
+   }
+
+   @Test
+   public void mapLambdaExpression() {
+      List<Character> firstChars = words.stream().map(s -> s.charAt(0)).collect(Collectors.toList());
+      assertEquals(asList('d', 'a', 'e', 'c', 'b'), firstChars);
    }
 
    @Test
@@ -150,5 +207,41 @@ public class StreamTest {
    public void sorted() {
       List<String> limited = words.stream().sorted().collect(Collectors.toList());
       assertEquals(asList("aardvark", "badger", "cat", "dog", "elephant"), limited);
+   }
+
+   @Test
+   public void streamOf() {
+      Stream<String> s = Stream.of("ab,cd,ef".split(","));
+      assertEquals(asList("ab", "cd", "ef"), s.collect(Collectors.toList()));
+   }
+
+   @Test
+   public void streamIterate() {
+      Stream<String> s = Stream.iterate("a", x -> x + "a");
+      assertEquals(asList("a", "aa", "aaa"), s.limit(3).collect(Collectors.toList()));
+   }
+
+   @Test
+   public void streamGenerate() {
+      Stream<String> s = Stream.generate(() -> "a");
+      assertEquals(asList("a", "a", "a"), s.limit(3).collect(Collectors.toList()));
+   }
+
+   @Test
+   public void intStreamOf() {
+      IntStream s = IntStream.of(8, 3, 5, 4);
+      assertEquals(8 + 3 + 5 + 4, s.sum());
+   }
+
+   @Test
+   public void intStreamRange() {
+      IntStream s = IntStream.range(2, 7);
+      assertEquals(2 + 3 + 4 + 5 + 6, s.sum());
+   }
+
+   @Test
+   public void intStreamRangeClosed() {
+      IntStream s = IntStream.rangeClosed(2, 7);
+      assertEquals(2 + 3 + 4 + 5 + 6 + 7, s.sum());
    }
 }
