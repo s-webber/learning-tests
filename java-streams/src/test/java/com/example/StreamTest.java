@@ -48,6 +48,24 @@ public class StreamTest {
    }
 
    @Test
+   public void collectToCollection() {
+      TreeSet<String> collected = words.stream().collect(toCollection(TreeSet::new));
+      assertEquals(asList("aardvark", "badger", "cat", "dog", "elephant"), new ArrayList<>(collected));
+   }
+
+   @Test
+   public void collectJoining() {
+      assertEquals("dog-aardvark-elephant-cat-badger", words.stream().collect(joining("-")));
+   }
+
+   @Test
+   public void collectPartitioningBy() {
+      Map<Boolean, List<String>> partitioned = words.stream().collect(partitioningBy(s -> s.length() == 3));
+      assertEquals(asList("dog", "cat"), partitioned.get(true));
+      assertEquals(asList("aardvark", "elephant", "badger"), partitioned.get(false));
+   }
+
+   @Test
    public void collectGroupingBy() {
       Map<Integer, List<String>> grouped = words.stream().collect(groupingBy(String::length));
       assertEquals(3, grouped.size());
@@ -102,24 +120,6 @@ public class StreamTest {
       assertEquals(3, grouped.get('a').get().intValue());
       assertEquals(6, grouped.get('b').get().intValue());
       assertEquals(3, grouped.get('c').get().intValue());
-   }
-
-   @Test
-   public void collectJoining() {
-      assertEquals("dog-aardvark-elephant-cat-badger", words.stream().collect(joining("-")));
-   }
-
-   @Test
-   public void collectPartitioningBy() {
-      Map<Boolean, List<String>> partitioned = words.stream().collect(partitioningBy(s -> s.length() == 3));
-      assertEquals(asList("dog", "cat"), partitioned.get(true));
-      assertEquals(asList("aardvark", "elephant", "badger"), partitioned.get(false));
-   }
-
-   @Test
-   public void collectToCollection() {
-      TreeSet<String> collected = words.stream().collect(toCollection(TreeSet::new));
-      assertEquals(asList("aardvark", "badger", "cat", "dog", "elephant"), new ArrayList<>(collected));
    }
 
    @Test
