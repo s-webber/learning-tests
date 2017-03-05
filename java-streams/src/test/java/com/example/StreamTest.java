@@ -43,6 +43,12 @@ public class StreamTest {
    }
 
    @Test
+   public void noneMatch() {
+      assertTrue(words.stream().noneMatch(s -> "caterpillar".equals(s)));
+      assertFalse(words.stream().noneMatch(s -> "cat".equals(s)));
+   }
+
+   @Test
    public void collectToList() {
       assertEquals(words, words.stream().collect(toList()));
    }
@@ -197,12 +203,6 @@ public class StreamTest {
    public void min() {
       Optional<String> min = words.stream().min(String::compareTo);
       assertEquals("aardvark", min.get());
-   }
-
-   @Test
-   public void noneMatch() {
-      assertTrue(words.stream().noneMatch(s -> s.length() < 3));
-      assertFalse(words.stream().noneMatch(s -> s.length() > 3));
    }
 
    @Test
