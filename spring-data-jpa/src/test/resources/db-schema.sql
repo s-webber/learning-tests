@@ -16,3 +16,13 @@ INSERT INTO employee VALUES (7, 'Thomas', 'Peterson', '2010-11-30', null);
 INSERT INTO employee VALUES (8, 'Emily', 'Ramsey', '1996-08-01', null);
 INSERT INTO employee VALUES (9, 'Jacob', 'Smith', '1996-08-01', null);
 INSERT INTO employee VALUES (10, 'Poppy', 'Young  ', '1996-08-01', null);
+
+CREATE TABLE customer (
+  id INT PRIMARY KEY,
+  first_name VARCHAR(50) NOT NULL,
+  last_name VARCHAR(50) NOT NULL
+);
+
+INSERT INTO customer VALUES (1, 'Fred', 'Heslop');
+INSERT INTO customer VALUES (2, 'Lucy', 'Johnson');
+INSERT INTO customer VALUES (3, 'John', 'Harvey');
