@@ -228,7 +228,7 @@ def test_rsplit():
     assert "bananas".rsplit("a", 2) == ["ban", "n", "s"]
 
 
-# for thorough explanation see:
+# For a thorough explanation see:
 # https://docs.python.org/3.4/library/string.html#formatspec
 # https://pyformat.info/
 def test_format():
@@ -238,3 +238,11 @@ def test_format():
 
 def test_format_map():
     assert "{item1} {item2}".format_map({"item1": "hello", "item2": "world"})
+
+
+# f-strings were introduced in Python 3.6. For a thorough explanation see:
+# https://realpython.com/python-f-strings/
+def test_f_string():
+    name = "world"
+    assert f"hello {name}!" == "hello world!"
+    assert f"hello {name.upper()}!" == "hello WORLD!"
