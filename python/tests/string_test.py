@@ -2,6 +2,10 @@
 import pytest
 
 
+def test_type():
+    assert isinstance("", str)
+
+
 def test_capitalize():
     assert "hello world!".capitalize() == "Hello world!"
     assert "HELLO WORLD!".capitalize() == "Hello world!"

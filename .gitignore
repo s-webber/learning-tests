@@ -1,11 +1,14 @@
 *.class
 *.jar
 *.zip
+*.iml
 
 .classpath
 .gradle
 .project
 .settings
+.idea
+venv
 
 bin
 build

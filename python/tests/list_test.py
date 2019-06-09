@@ -2,6 +2,10 @@
 import pytest
 
 
+def test_type():
+    assert isinstance([], list)
+
+
 def test_len():
     assert len([]) == 0
     assert len(["a"]) == 1
@@ -43,7 +47,7 @@ def test_update():
     assert x == ["pear", "orange", "kiwi"]
 
 
-def test_update_out_or_range():
+def test_update_out_of_range():
     x = ["a", "b", "c"]
     with pytest.raises(IndexError):
         x[3] = "banana"
