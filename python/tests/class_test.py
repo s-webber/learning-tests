@@ -7,6 +7,8 @@ def test_class():
     o = ExampleClass(10, 12)
     assert o.x() == 10
     assert o.y() == 12
+    assert o(5, 8) == 40
+    assert o(3, 7) == o.__call__(3, 7)
     assert str(o) == 'x: 10 y: 12'
 
 
@@ -25,6 +27,11 @@ class ExampleClass:
 
     def y(self):
         return self._y
+
+    # Called when the instance is "called" as a function;
+    # if this method is defined, x(arg1, arg2, ...) is a shorthand for x.__call__(arg1, arg2, ...).
+    def __call__(self, x, y):
+        return x * y
 
     # Called by str(object) and the built-in functions format() and print() to compute the "informal"
     # or nicely printable string representation of an object. The return value must be a string object.

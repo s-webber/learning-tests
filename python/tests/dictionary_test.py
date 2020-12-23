@@ -5,6 +5,11 @@ def test_type():
     assert isinstance({}, dict)
 
 
+def test_keys_unique_values_not():
+    x = {"a": 1, "a": 2, "b": 2}
+    assert x == {"a": 2, "b": 2}
+
+
 def test_get():
     x = {"a": 9}
     assert x.get("a") == 9

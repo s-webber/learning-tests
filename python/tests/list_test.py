@@ -156,6 +156,14 @@ def test_copy():
     assert y == ["a", "b", "c", "z"]
 
 
+def test_split_copy():
+    x = ["a", "b", "c"]
+    y = x[:]
+    y.append("z")
+    assert x == ["a", "b", "c"]
+    assert y == ["a", "b", "c", "z"]
+
+
 def test_pop():
     x = ["a", "b", "c"]
     assert x.pop() == "c"
