@@ -8,14 +8,14 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.0.2.RELEASE</version>
+		<version>2.6.2</version>
 	</parent>
 
 	<properties>
 		<java.version>1.8</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<testfx.version>4.0.13-alpha</testfx.version>
+		<testfx.version>4.0.14-alpha</testfx.version>
 	</properties>
 
 	<dependencies>
@@ -37,7 +37,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.testfx</groupId>
-			<artifactId>testfx-junit</artifactId>
+			<artifactId>testfx-junit5</artifactId>
 			<version>${testfx.version}</version>
 			<scope>test</scope>
 		</dependency>

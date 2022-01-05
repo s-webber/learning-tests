@@ -25,7 +25,7 @@ public class CustomerRepositoryTest {
 
    @Test
    public void test() {
-      Customer customer = customerRepository.findOne(1);
+      Customer customer = customerRepository.findById(1).get();
       Name name = customer.getName();
       assertNotNull(name);
       assertEquals("Fred", name.getFirstName());

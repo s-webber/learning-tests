@@ -3,7 +3,6 @@ package com.example;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
@@ -52,47 +51,47 @@ public class EmployeeRepositoryTest {
    /**
     * Deletes the entity with the given id.
     *
-    * @see http://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/repository/CrudRepository.html#delete-ID-
+    * @see https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/repository/CrudRepository.html#deleteById-ID-
     */
    @Test
-   public void testDeleteID() {
+   public void testDeleteByID() {
       final int id = 1;
-      assertTrue(employeeRepository.exists(id));
-      employeeRepository.delete(id);
-      assertFalse(employeeRepository.exists(id));
+      assertTrue(employeeRepository.existsById(id));
+      employeeRepository.deleteById(id);
+      assertFalse(employeeRepository.existsById(id));
    }
 
    /**
     * Deletes the given entities.
     *
-    * @see http://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/repository/CrudRepository.html#delete-java.lang.Iterable-
+    * @see https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/repository/CrudRepository.html#deleteAll-java.lang.Iterable-
     */
    @Test
-   public void testDeleteIterable() {
-      employeeRepository.delete(Arrays.asList(employeeRepository.findOne(1), employeeRepository.findOne(4), employeeRepository.findOne(9)));
-      assertNull(employeeRepository.findOne(1));
-      assertNull(employeeRepository.findOne(4));
-      assertNull(employeeRepository.findOne(9));
+   public void testDeleteAllIterable() {
+      employeeRepository.deleteAll(Arrays.asList(employeeRepository.findById(1).get(), employeeRepository.findById(4).get(), employeeRepository.findById(9).get()));
+      assertFalse(employeeRepository.findById(1).isPresent());
+      assertFalse(employeeRepository.findById(4).isPresent());
+      assertFalse(employeeRepository.findById(9).isPresent());
    }
 
    /**
     * Deletes a given entity.
     *
-    * @see http://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/repository/CrudRepository.html#delete-T-
+    * @see https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/repository/CrudRepository.html#delete-T-
     */
    @Test
    public void testDelete() {
       final int id = 1;
-      assertTrue(employeeRepository.exists(id));
-      Employee e = employeeRepository.getOne(id);
+      assertTrue(employeeRepository.existsById(id));
+      Employee e = employeeRepository.getById(id);
       employeeRepository.delete(e);
-      assertFalse(employeeRepository.exists(id));
+      assertFalse(employeeRepository.existsById(id));
    }
 
    /**
     * Deletes all entities managed by the repository.
     *
-    * @see http://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/repository/CrudRepository.html#deleteAll--
+    * @see https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/repository/CrudRepository.html#deleteAll--
     */
    @Test
    public void testDeleteAll() {
@@ -104,22 +103,21 @@ public class EmployeeRepositoryTest {
    /**
     * Returns whether an entity with the given id exists.
     *
-    * @see http://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/repository/CrudRepository.html#exists-ID-
+    * @see https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/repository/CrudRepository.html#existsById-ID--
     */
    @Test
-   public void testExists() {
+   public void testExistsById() {
       int idThatExists = 1;
-      assertTrue(employeeRepository.exists(idThatExists));
+      assertTrue(employeeRepository.existsById(idThatExists));
 
       int idThatDoesNotExist = 9969;
-      assertFalse(employeeRepository.exists(idThatDoesNotExist));
+      assertFalse(employeeRepository.existsById(idThatDoesNotExist));
    }
 
    /**
     * Returns all instances of the type.
     *
-    * @see http://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/repository/CrudRepository.html#findAll--
-    * @see http://docs.spring.io/spring-data/jpa/docs/current/api/org/springframework/data/jpa/repository/JpaRepository.html#findAll--
+    * @see https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/repository/CrudRepository.html#findAll--
     */
    @Test
    public void testFindAll() {
@@ -131,12 +129,11 @@ public class EmployeeRepositoryTest {
    /**
     * Returns all instances of the type with the given IDs.
     *
-    * @see http://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/repository/CrudRepository.html#findAll-java.lang.Iterable-
-    * @see http://docs.spring.io/spring-data/jpa/docs/current/api/org/springframework/data/jpa/repository/JpaRepository.html#findAll-java.lang.Iterable-
+    * @see https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/repository/CrudRepository.html#findAllById-java.lang.Iterable-
     */
    @Test
-   public void testFindAllIterable() {
-      List<Employee> all = employeeRepository.findAll(Arrays.asList(1, 4, 9));
+   public void testFindAllByIdIterable() {
+      List<Employee> all = employeeRepository.findAllById(Arrays.asList(1, 4, 9));
       assertIdAndFirstName(all.get(0), 1, "Jack");
       assertIdAndFirstName(all.get(1), 4, "Olivia");
       assertIdAndFirstName(all.get(2), 9, "Jacob");
@@ -150,119 +147,28 @@ public class EmployeeRepositoryTest {
    /**
     * Retrieves an entity by its id.
     *
-    * @see http://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/repository/CrudRepository.html#findOne-ID-
-    * @see http://stackoverflow.com/questions/24482117/when-use-getone-and-findone-methods-spring-data-jpa
-    * @see #testGetOne()
+    * @see https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/repository/CrudRepository.html#findById-ID-
     */
    @Test
-   public void testFindOne() {
-      Employee e = employeeRepository.findOne(1);
+   public void testFindById() {
+      Employee e = employeeRepository.findById(1).get();
       assertEquals("Jack", e.getFirstName());
-   }
-
-   /**
-    * Saves all given entities.
-    *
-    * @see http://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/repository/CrudRepository.html#save-java.lang.Iterable-
-    */
-   @Test
-   public void testSaveIterable() {
-      // TODO add test of: Iterable<S> save(Iterable<S> entities)
-   }
-
-   /**
-    * Saves a given entity.
-    *
-    * @see http://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/repository/CrudRepository.html#save-S-
-    * @see #testSaveAndFlush()
-    */
-   @Test
-   public void testSave() {
-      // TODO add test of: S save(S entity)
-   }
-
-   // test methods defined in PagingAndSortingRepository
-
-   /**
-    * Returns a Page of entities meeting the paging restriction provided in the Pageable object.
-    *
-    * @see http://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/repository/PagingAndSortingRepository.html
-    */
-   @Test
-   public void testFindAllPageable() {
-      // TODO add test of: Page<T> findAll(Pageable pageable)
    }
 
    /**
     * Returns all entities sorted by the given options.
     *
-    * @see http://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/repository/PagingAndSortingRepository.html
+    * @see https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/repository/PagingAndSortingRepository.html#findAll-org.springframework.data.domain.Sort-
     */
    @Test
    public void testFindAllSort() {
-      Sort sort = new Sort(Sort.Direction.ASC, "firstName");
+      Sort sort = Sort.by(new Sort.Order(Sort.Direction.ASC, "firstName"));
       List<Employee> sortedEmployees = employeeRepository.findAll(sort);
       Object[] sortedFirstNames = sortedEmployees.stream().map(Employee::getFirstName).toArray();
-      assertArrayEquals(new Object[] { "Amelia", "Emily", "Isla", "Jack", "Jacob", "James", "Olivia", "Poppy", "Thomas", "William" }, sortedFirstNames);
+      assertArrayEquals(new Object[] {"Amelia", "Emily", "Isla", "Jack", "Jacob", "James", "Olivia", "Poppy", "Thomas", "William"}, sortedFirstNames);
    }
 
-   // test methods defined in JpaRepository
-
-   /**
-    * Deletes the given entities in a batch which means it will create a single Query.
-    * <p>
-    * Assume that it will clear the EntityManager after the call.
-    *
-    * @see http://docs.spring.io/spring-data/jpa/docs/current/api/org/springframework/data/jpa/repository/JpaRepository.html#deleteAllInBatch--
-    */
-   @Test
-   public void testDeleteAllInBatch() {
-      // TODO add test of: void deleteAllInBatch()
-   }
-
-   /**
-    * Deletes the given entities in a batch which means it will create a single Query.
-    * <p>
-    * Assume that it will clear the EntityManager after the call.
-    *
-    * @see http://docs.spring.io/spring-data/jpa/docs/current/api/org/springframework/data/jpa/repository/JpaRepository.html#deleteInBatch-java.lang.Iterable-
-    */
-   @Test
-   public void testDeleteInBatchIterable() {
-      // TODO add test of: void deleteAllInBatch()
-   }
-
-   /**
-    * Flushes all pending changes to the database.
-    *
-    * @see http://docs.spring.io/spring-data/jpa/docs/current/api/org/springframework/data/jpa/repository/JpaRepository.html#flush--
-    */
-   @Test
-   public void testFlush() {
-      // TODO add test of: void flush()
-   }
-
-   /**
-    * Returns a reference to the entity with the given identifier.
-    *
-    * @see http://docs.spring.io/spring-data/jpa/docs/current/api/org/springframework/data/jpa/repository/JpaRepository.html#getOne-ID-
-    * @see http://stackoverflow.com/questions/24482117/when-use-getone-and-findone-methods-spring-data-jpa
-    * @see #testFindOne()
-    */
-   @Test
-   public void testGetOne() {
-      // TODO test getOne and demonstrate difference between getOne and findOne
-   }
-
-   /**
-    * Saves an entity and flushes changes instantly.
-    *
-    * @see http://docs.spring.io/spring-data/jpa/docs/current/api/org/springframework/data/jpa/repository/JpaRepository.html#saveAndFlush-S-
-    */
-   @Test
-   public void testSaveAndFlush() {
-      // TODO add test of: S saveAndFlush(S entity)
-   }
+   // TODO test methods defined in JpaRepository
 
    // test queries defined in ExampleRepository
 

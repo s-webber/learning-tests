@@ -11,12 +11,12 @@ import org.junit.Test;
 import org.testfx.framework.junit.ApplicationTest;
 
 public class ExampleTest extends ApplicationTest {
+   private Stage stage;
+
    @BeforeClass
    public static void setUpClass() throws Exception {
       ApplicationTest.launch(ExampleApplication.class);
    }
-
-   Stage stage;
 
    @Override
    public void start(Stage stage) throws Exception {
